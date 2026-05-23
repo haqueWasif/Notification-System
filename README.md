@@ -1,4 +1,3 @@
-````md
 # Background Job Based Notification System
 
 A Django REST Framework backend API where authenticated users can schedule notifications.  
