@@ -347,5 +347,3 @@ This project separates API requests from background processing.
 The Django API handles validation and persistence, while Celery handles scheduled and retryable jobs asynchronously. This avoids blocking API requests and allows workers to be scaled independently.
 
 For larger production systems, a periodic scheduler can scan due notifications from the database instead of scheduling many long-future ETA tasks directly.
-
-````
