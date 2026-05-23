@@ -2,7 +2,9 @@ Django
 djangorestframework
 djangorestframework-simplejwt
 psycopg2-binary
-celery
+celery[redis]
 redis
 python-decouple
 gunicorn
+whitenoise
+dj-database-url
