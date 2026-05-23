@@ -1,0 +1,45 @@
+services:
+  web:
+    build: .
+    working_dir: /code/app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/code/app
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: notification_db
+      POSTGRES_USER: notification_user
+      POSTGRES_PASSWORD: notification_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+
+  celery:
+    build: .
+    working_dir: /code/app
+    command: celery -A config.celery worker -l info
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/code/app
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres_data:
