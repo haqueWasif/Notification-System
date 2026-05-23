@@ -1,19 +1,3 @@
-"""
-URL configuration for config project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import path, include
@@ -21,6 +5,23 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+
+
+def api_home(request):
+    return JsonResponse({
+        "message": "Notification API is running",
+        "routes": {
+            "health_check": "/api/health/",
+            "register": "/api/auth/register/",
+            "login": "/api/auth/token/",
+            "refresh_token": "/api/auth/token/refresh/",
+            "notifications": "/api/notifications/",
+            "notification_history": "/api/notifications/history/",
+            "retry_failed_notification": "/api/notifications/{id}/retry/",
+            "admin": "/admin/"
+        },
+        "note": "Protected routes require JWT Bearer token authentication."
+    })
 
 
 def health_check(request):
@@ -31,8 +32,8 @@ def health_check(request):
 
 
 urlpatterns = [
-    path("", health_check, name="health-check"),
-    path("api/health/", health_check, name="api-health-check"),
+    path("", api_home, name="api-home"),
+    path("api/health/", health_check, name="api-health"),
 
     path("admin/", admin.site.urls),
 
